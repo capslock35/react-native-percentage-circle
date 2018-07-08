@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
+  Platform,
   Text,
 } from 'react-native';
 
@@ -85,13 +86,13 @@ class PercentageCircle extends Component {
 
   componentWillReceiveProps(nextProps) {
     let percent = nextProps.percent;
-    let leftTransformerDegree = '0deg';
-    let rightTransformerDegree = '0deg';
-    if (percent >= 50) {
-      rightTransformerDegree = '180deg';
-      leftTransformerDegree = (percent - 50) * 3.6 + 'deg';
-    } else {
+    let rightTransformerDegree, leftTransformerDegree;
+    if (Platform.OS == 'ios') {
+      leftTransformerDegree = '0deg'; 
       rightTransformerDegree = percent * 3.6 + 'deg';
+    }else{ 
+      leftTransformerDegree = '0deg'; 
+      rightTransformerDegree = -(50-percent) * 3.6 + 'deg'; 
     }
     this.setState({
       percent: this.props.percent,
