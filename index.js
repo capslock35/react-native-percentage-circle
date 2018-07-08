@@ -1,4 +1,5 @@
 
+
 /** React Native Percentage Circle
  ** @github  https://github.com/JackPu/react-native-percentage-circle
  ** React Native Version >=0.25
@@ -98,11 +99,12 @@ class PercentageCircle extends Component {
     let percent = nextProps.percent;
     let leftTransformerDegree = '0deg';
     let rightTransformerDegree = '0deg';
-    if (percent >= 50) {
-      rightTransformerDegree = '180deg';
-      leftTransformerDegree = (percent - 50) * 3.6 + 'deg';
-    } else {
+    if (Platform.OS == 'ios') {
+      leftTransformerDegree = '0deg';
       rightTransformerDegree = percent * 3.6 + 'deg';
+    }else{
+      leftTransformerDegree = '0deg';
+      rightTransformerDegree = -(50-percent) * 3.6 + 'deg';
     }
     this.setState({
       percent: this.props.percent,
@@ -157,7 +159,7 @@ class PercentageCircle extends Component {
             height: this.props.radius*2,
             borderTopRightRadius:0,
             borderBottomRightRadius:0,
-            backgroundColor: this.props.color,
+            backgroundColor: Platform.OS == 'ios' ? this.props.color : this.props.percent < 50 ? this.props.bgcolor : this.props.color,
             transform:[{translateX:this.props.radius/2},{rotate:this.state.rightTransformerDegree},{translateX:-this.props.radius/2}],
           }]}></View>
         </View>
@@ -183,3 +185,4 @@ PercentageCircle.defaultProps = {
 };
 
 module.exports = PercentageCircle;
+
